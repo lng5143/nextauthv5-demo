@@ -15,8 +15,8 @@ import { login } from "@/actions/login";
 
 export default function LoginForm() {
     const [isPending, startTransition] = useTransition();
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
+    const [error, setError] = useState();
+    const [success, setSuccess] = useState();
 
 
     const form = useForm({
@@ -34,8 +34,10 @@ export default function LoginForm() {
         startTransition(() => {
             login(values)
             .then(data => {
-                setError(data.error);
-                setSuccess(data.success);
+                console.log(data)
+
+                setError(data.error ?? "");
+                setSuccess(data.success ?? "");
             })
         })
     }

@@ -12,6 +12,7 @@ import { Button } from "../button";
 import FormError from "@/components/form-error";
 import FormSuccess from "@/components/form-success";
 import { login } from "@/actions/login";
+import { register } from "@/actions/register";
 
 export default function RegisterForm() {
     const [isPending, startTransition] = useTransition();
@@ -33,7 +34,7 @@ export default function RegisterForm() {
         setSuccess("");
 
         startTransition(() => {
-            login(values)
+            register(values)
             .then(data => {
                 setError(data.error);
                 setSuccess(data.success);
@@ -54,6 +55,22 @@ export default function RegisterForm() {
                     className="space-y-6"    
                 >
                     <div className="space-y-4">
+                    <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl>
+                                        <Input 
+                                            {...field}
+                                            placeholder="John Doe"
+                                            disabled={isPending}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="email"
@@ -88,22 +105,7 @@ export default function RegisterForm() {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl>
-                                        <Input 
-                                            {...field}
-                                            placeholder="John Doe"
-                                            disabled={isPending}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                        
 
                     </div>
                     <FormError message={error}/>
