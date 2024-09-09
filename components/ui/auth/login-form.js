@@ -12,12 +12,15 @@ import { Button } from "../button";
 import FormError from "@/components/form-error";
 import FormSuccess from "@/components/form-success";
 import { login } from "@/actions/login";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
+    const searchParams = useSearchParams();
+    const urlError = searchParams.get("error") === "OAuthAccountNotLinked" ? "Email already in use with different provider!" : "";
+
     const [isPending, startTransition] = useTransition();
     const [error, setError] = useState();
     const [success, setSuccess] = useState();
-
 
     const form = useForm({
         resolver: zodResolver(LoginSchema),
@@ -34,10 +37,8 @@ export default function LoginForm() {
         startTransition(() => {
             login(values)
             .then(data => {
-                console.log(data)
-
-                setError(data.error ?? "");
-                setSuccess(data.success ?? "");
+                setError(data?.error);
+                setSuccess(data?.success);
             })
         })
     }
@@ -91,7 +92,7 @@ export default function LoginForm() {
                         />
 
                     </div>
-                    <FormError message={error}/>
+                    <FormError message={error || urlError}/>
                     <FormSuccess message={success} />
                     <Button
                         type="submit"
