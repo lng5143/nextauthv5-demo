@@ -111,6 +111,11 @@ export default function LoginForm() {
                                         </FormItem>
                                     )}
                                 />
+                                <Button size="sm" variant="link" asChild className="px-0 font-normal">
+                                        <Link href="/auth/magic-link">
+                                            Login with email
+                                        </Link>
+                                </Button>
                         </>}
                         {showTwoFactor && 
                             <FormField

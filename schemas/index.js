@@ -26,3 +26,9 @@ export const NewPasswordSchema = z.object({
         message: "Minimum of 6 characters required"
     })
 })
+
+export const MagicLinkSchema = z.object({
+    email: z.string().email({
+        message: "Email is required"
+    }),
+})

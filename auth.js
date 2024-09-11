@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./lib/db";
 import { getUserById } from "./data/user";
 import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
+import Resend from "next-auth/providers/resend";
 
 export const {
     handlers: { GET, POST },
@@ -19,6 +20,13 @@ export const {
         error: "/auth/error",
 
     },
+    providers: [
+        ...authConfig.providers,
+        Resend({
+            from: "onboarding@resend.dev",
+            apiKey: process.env.RESEND_API_KEY,
+        }),
+    ],
     events: {
         async linkAccount({ user }) {
             await db.user.update({
